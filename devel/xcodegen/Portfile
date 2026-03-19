@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                xcodegen
+version             2.45.3
+revision            0
+categories          devel
+supported_archs     arm64 x86_64
+license             MIT
+maintainers         nomaintainer
+
+description         Generate Xcode projects from a YAML or JSON specification
+long_description    XcodeGen is a command-line tool written in Swift that generates \
+                    Xcode projects from a YAML or JSON project specification file. \
+                    It eliminates merge conflicts in .xcodeproj files and keeps \
+                    project configuration in a human-readable, version-controlled format.
+
+homepage            https://github.com/yonaskolb/XcodeGen
+
+master_sites        https://github.com/yonaskolb/XcodeGen/releases/download/${version}/
+distfiles           xcodegen.zip
+worksrcdir          xcodegen
+
+checksums           rmd160  242fed78ce74945621136732d6a0348db358bb78 \
+                    sha256  0c90f4d28ca57335f9fa78cf5bf6dabfe20a232036dabe36de2eef79cb7c0878 \
+                    size    4318218
+
+use_zip             yes
+use_configure       no
+
+build {}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/bin/xcodegen \
+        ${destroot}${prefix}/bin/xcodegen
+
+    xinstall -d ${destroot}${prefix}/share/xcodegen
+    copy ${worksrcpath}/share/xcodegen/SettingPresets \
+        ${destroot}${prefix}/share/xcodegen/SettingPresets
+}
