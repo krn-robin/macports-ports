@@ -1,0 +1,112 @@
+{
+  "name": "Wawona",
+  "options": {
+    "bundleIdPrefix": "com.aspauldingcode",
+    "deploymentTarget": {
+      "macOS": "13.0"
+    },
+    "generateEmptyDirectories": true
+  },
+  "settings": {
+    "base": {
+      "PRODUCT_NAME": "Wawona",
+      "MARKETING_VERSION": "0.2.2",
+      "CURRENT_PROJECT_VERSION": "1",
+      "CODE_SIGN_STYLE": "Manual",
+      "CLANG_ENABLE_MODULES": "YES",
+      "CLANG_ENABLE_OBJC_ARC": "YES",
+      "ENABLE_BITCODE": "NO",
+      "GCC_PREPROCESSOR_DEFINITIONS": [
+        "$(inherited)",
+        "USE_RUST_CORE=1"
+      ]
+    }
+  },
+  "targets": {
+    "Wawona-macOS": {
+      "type": "application",
+      "platform": "macOS",
+      "sources": [
+        {
+          "path": "src/platform/macos",
+          "excludes": ["**/*.rs", "**/*.toml", "**/*.md", "**/Cargo.lock", "**/.DS_Store", "**/renderer_android.*", "**/WWNSettings.c"]
+        },
+        {
+          "path": "src/ui",
+          "excludes": ["**/*.rs", "**/*.toml", "**/*.md", "**/Cargo.lock", "**/.DS_Store", "**/renderer_android.*", "**/WWNSettings.c"]
+        },
+        {
+          "path": "src/launcher",
+          "excludes": ["**/*.rs", "**/*.toml", "**/*.md", "**/Cargo.lock", "**/.DS_Store", "**/renderer_android.*", "**/WWNSettings.c", "*LauncherClient*"]
+        },
+        {
+          "path": "src/rendering",
+          "excludes": ["**/*.rs", "**/*.toml", "**/*.md", "**/Cargo.lock", "**/.DS_Store", "**/renderer_android.*", "**/WWNSettings.c"]
+        },
+        {"path": "src/apple_backend.h", "type": "file"},
+        {"path": "src/config.h", "type": "file"},
+        {"path": "src/resources/Assets.xcassets"},
+        {"path": "src/resources/Wawona.icon", "type": "folder"},
+        {"path": "src/resources/wayland.png", "type": "file"},
+        {"path": "src/resources/Wawona-iOS-Dark-1024x1024@1x.png", "type": "file"},
+        {"path": "src/resources/macos", "type": "folder"}
+      ],
+      "settings": {
+        "base": {
+          "INFOPLIST_FILE": "src/resources/app-bundle/Info-macOS.plist",
+          "GENERATE_INFOPLIST_FILE": "NO",
+          "PRODUCT_BUNDLE_IDENTIFIER": "com.aspauldingcode.Wawona",
+          "CODE_SIGN_STYLE": "Manual",
+          "CODE_SIGN_IDENTITY": "-",
+          "CODE_SIGNING_ALLOWED": "YES",
+          "DEVELOPMENT_TEAM": "",
+          "HEADER_SEARCH_PATHS": [
+            "$(inherited)",
+            "@@PREFIX@@/include",
+            "@@PREFIX@@/include/wayland",
+            "$(SRCROOT)/src",
+            "$(SRCROOT)/src/rendering",
+            "$(SRCROOT)/src/ui",
+            "$(SRCROOT)/src/ui/Helpers",
+            "$(SRCROOT)/src/launcher",
+            "$(SRCROOT)/src/platform/macos"
+          ],
+          "OTHER_LDFLAGS": [
+            "$(inherited)",
+            "-L@@PREFIX@@/lib",
+            "-lxkbcommon",
+            "-lwayland-client",
+            "-lwayland-server",
+            "-lpixman-1",
+            "-lssl",
+            "-lcrypto",
+            "-lz",
+            "@@RUST_LIB@@"
+          ],
+          "GCC_PREPROCESSOR_DEFINITIONS": [
+            "$(inherited)",
+            "USE_RUST_CORE=1",
+            "PRODUCT_BUNDLE_IDENTIFIER=\\\"com.aspauldingcode.Wawona\\\"",
+            "WAWONA_VERSION=\\\"0.2.2\\\""
+          ]
+        }
+      },
+      "dependencies": [
+        {"sdk": "Cocoa.framework"},
+        {"sdk": "Foundation.framework"},
+        {"sdk": "CoreGraphics.framework"},
+        {"sdk": "QuartzCore.framework"},
+        {"sdk": "CoreVideo.framework"},
+        {"sdk": "Metal.framework"},
+        {"sdk": "MetalKit.framework"},
+        {"sdk": "IOSurface.framework"},
+        {"sdk": "CoreMedia.framework"},
+        {"sdk": "VideoToolbox.framework"},
+        {"sdk": "AVFoundation.framework"},
+        {"sdk": "Security.framework"},
+        {"sdk": "Network.framework"},
+        {"sdk": "ColorSync.framework"}
+      ]
+    }
+  }
+}
